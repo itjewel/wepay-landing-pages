@@ -12,7 +12,7 @@ export default function WePay4UButton({ items }) {
 
   useEffect(() => {
     if (!window.WePay4U) {
-      containerRef.current.textContent = "WePay4U script failed to load. Is http://localhost:3001 running?";
+      containerRef.current.textContent = "WePay4U script failed to load. Check https://wepay4u.org/wepay4u.js is reachable.";
       return;
     }
 
