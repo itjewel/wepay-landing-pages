@@ -29,7 +29,11 @@ export default function WePay4UButton({ items }) {
             }),
           });
         } catch {
-          throw new Error(`Shop server is not running at ${SHOP_API}. Start it with: npm run server`);
+          throw new Error(
+            SHOP_API
+              ? `Shop server is not running at ${SHOP_API}. Start it with: npm run server`
+              : "Could not reach /api/wepay4u/checkout. Run with `vercel dev`, or set VITE_SHOP_API and run `npm run server`."
+          );
         }
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Could not start WePay4U checkout");
