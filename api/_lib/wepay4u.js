@@ -10,11 +10,20 @@ export async function wepay4uFetch(path, options = {}) {
     });
   }
 
-  const res = await fetch(`${WEPAY4U_API}${path}`, {
+  const url = `${WEPAY4U_API}${path}`;
+  console.log(`[wepay4u debug] fetching ${url}`);
+  const res = await fetch(url, {
     ...options,
     headers: { "Content-Type": "application/json", "X-Api-Key": WEPAY4U_SECRET },
   });
-  const json = await res.json().catch(() => ({}));
+  const rawText = await res.text();
+  console.log(`[wepay4u debug] status=${res.status} body=${rawText.slice(0, 300)}`);
+  let json = {};
+  try {
+    json = JSON.parse(rawText || "{}");
+  } catch {
+    json = {};
+  }
   if (!res.ok || json.success === false) {
     throw Object.assign(new Error(json.message || `WePay4U error ${res.status}`), { status: res.status });
   }
